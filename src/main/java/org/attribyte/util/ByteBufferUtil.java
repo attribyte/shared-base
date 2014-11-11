@@ -30,7 +30,7 @@ public class ByteBufferUtil {
     * If the buffer is backed by an array, simply returns the array.
     * Note that this allows modification to the underlying array.
     * Otherwise, the buffer is fully read and returned as a new array.
-    * </p
+    * </p>
     * @param buf The buffer. If <code>null</code>, <code>null</code> is returned.
     * @return The array of bytes.
     */

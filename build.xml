@@ -2,6 +2,18 @@
 
     <description>Build the Attribyte, LLC shared-base project</description>
 
+    <property name="src" location="src" />
+    <property name="build" location="build" />
+    <property name="dist" location="dist" />
+
+    <property name="groupId" value="org.attribyte" />
+    <property name="artifactId" value="attribyte-shared-base" />
+    <property name="version" value="1.0" />
+
+    <property name="jar" value="${dist}/lib/${artifactId}-${version}.jar" />
+    <property name="javadoc-jar" value="${dist}/lib/${artifactId}-${version}-javadoc.jar" />
+    <property name="sources-jar" value="${dist}/lib/${artifactId}-${version}-sources.jar" />
+
     <path id="classpath">
         <fileset refid="ivy.fileset"/>
         <pathelement location="build/"/>
@@ -13,51 +25,57 @@
     </target>
 
     <target name="init" depends="resolve">
-        <tstamp/>
-        <mkdir dir="build/"/>
+        <mkdir dir="${build}"/>
+        <mkdir dir="${dist}/lib"/>
+        <mkdir dir="${dist}/extlib"/>
+        <mkdir dir="${dist}/doc/javadoc"/>
+    </target>
+
+    <target name="clean" description="Removes all build and doc files">
+        <delete dir="${build}"/>
+        <delete dir="${dist}"/>
+        <delete dir="${dist}/doc"/>
+    </target>
+
+    <target name="cleandoc" description="Remove all generated doc files">
+        <delete dir="${dist}/doc"/>
     </target>
 
     <target name="compile" depends="init" description="Compiles the source">
-        <javac includeantruntime="false" srcdir="src/main/java" destdir="build" debug="on" deprecation="on">
+        <javac includeantruntime="false" srcdir="${src}/main/java" destdir="build" debug="on" deprecation="on">
             <classpath refid="classpath"/>
         </javac>
     </target>
 
     <target name="dist" depends="compile" description="Creates the distribution">
-        <mkdir dir="dist/lib"/>
-        <mkdir dir="dist/extlib"/>
-        <jar jarfile="dist/lib/attribyte-shared-base.1.0.jar" basedir="build"/>
+        <jar jarfile="${jar}" basedir="build"/>
     </target>
 
     <target name="full-dist" depends="compile" description="Creates the distribution">
-        <mkdir dir="dist/lib"/>
-        <mkdir dir="dist/extlib"/>
-        <jar jarfile="dist/lib/attribyte-shared-base.1.0.jar" basedir="build"/>
-        <ivy:retrieve pattern="dist/extlib/[organisation]-[artifact]-[revision].[ext]"
+        <jar jarfile="${jar}" basedir="build"/>
+        <ivy:retrieve pattern="${dist}/extlib/[organisation]-[artifact]-[revision].[ext]"
                       conf="compile"/>
     </target>
 
-    <target name="clean" description="Removes all build files">
-        <delete dir="build"/>
-        <delete dir="dist"/>
-    </target>
-
-    <target name="cleandoc" description="Remove all generated doc files">
-        <delete dir="doc/javadoc"/>
-    </target>
-
-    <target name="javadoc">
+    <target name="mvn-dist" depends="dist">
         <javadoc
                 access="public"
-                destdir="doc/javadoc"
+                destdir="${dist}/doc/javadoc"
                 author="true"
                 version="true"
                 use="true"
                 windowtitle="org.attribyte"
                 >
-            <fileset dir="src" defaultexcludes="yes">
+            <fileset dir="${src}" defaultexcludes="yes">
                 <include name="**/*.java"/>
             </fileset>
         </javadoc>
+        <jar jarfile="${javadoc-jar}">
+            <fileset dir="${dist}/doc" />
+        </jar>
+        <jar jarfile="${sources-jar}">
+            <fileset dir="${src}" />
+        </jar>
     </target>
+
 </project>

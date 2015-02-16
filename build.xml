@@ -10,7 +10,7 @@
 
     <property name="groupId" value="org.attribyte" />
     <property name="artifactId" value="attribyte-shared-base" />
-    <property name="version" value="1.0" />
+    <property name="version" value="1.0.1" />
 
     <property name="jar" value="${dist}/lib/${artifactId}-${version}.jar" />
     <property name="javadoc-jar" value="${dist}/lib/${artifactId}-${version}-javadoc.jar" />
@@ -44,7 +44,7 @@
     </target>
 
     <target name="compile" depends="init" description="Compiles the source">
-        <javac target="${jdkVersion}" includeantruntime="false" srcdir="${src}/main/java" destdir="build" debug="on" deprecation="on">
+        <javac source="${jdkVersion}" target="${jdkVersion}" includeantruntime="false" srcdir="${src}/main/java" destdir="build" debug="on" deprecation="on">
             <classpath refid="classpath"/>
         </javac>
     </target>

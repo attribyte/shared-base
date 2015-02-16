@@ -274,7 +274,7 @@ public class InitUtil {
     * @throws InitializationException if called.
     */
    public final void throwRequiredException(final String propertyName) throws InitializationException {
-      throw new InitializationException("The '" + prefix + propertyName + "' property must be specifed");
+      throw new InitializationException("The '" + prefix + propertyName + "' property must be specified");
    }
 
    /**
@@ -283,7 +283,7 @@ public class InitUtil {
     * @throws InitializationException if called.
     */
    public final void throwPositiveIntRequiredException(final String propertyName) throws InitializationException {
-      throw new InitializationException("The '" + prefix + propertyName + "' property must be specifed and > 0");
+      throw new InitializationException("The '" + prefix + propertyName + "' property must be specified and > 0");
    }
 
    /**

@@ -27,7 +27,10 @@ import java.util.*;
 public class InitUtil {
 
    /**
-    * Creates a properties init util.
+    * Creates a properties init util with case-insensitive names.
+    * <p>
+    *    All property names are converted to lower-case.
+    * </p>
     * @param prefix The prefix appended to all property names.
     * @param props The properties.
     */
@@ -37,7 +40,7 @@ public class InitUtil {
 
    @SuppressWarnings("unchecked")
    /**
-    * Creates a properties init util.
+    * Creates a properties init util with optionally case-insensitive names.
     * @param prefix The prefix appended to all property names.
     * @param props The properties.
     * @param lowercaseNames Should property names be lower-cased? That is, property methods are case-insensitive.
@@ -47,7 +50,7 @@ public class InitUtil {
       this.props = new Properties();
       this.lowercaseNames = lowercaseNames;
 
-      //Include only properties with the specified prefix, lower-case the property name and trim values.
+      //Include only properties with the specified prefix, maybe lower-case the property name and trim values.
 
       Set<String> propertyNames = new HashSet<String>();
       Enumeration pn = props.propertyNames();
@@ -102,10 +105,6 @@ public class InitUtil {
 
       return propMap;
    }
-
-   final String prefix;
-   final Properties props;
-   final boolean lowercaseNames;
 
    /**
     * Gets a property.
@@ -184,13 +183,32 @@ public class InitUtil {
     * @throws InitializationException if property is not an integer.
     */
    public final int getIntProperty(final String propertyName, final int defaultValue) throws InitializationException {
-
-      String strValue = props.getProperty(lowercaseNames ? propertyName.toLowerCase() : propertyName);
-      if(strValue == null || strValue.length() == 0) {
+      String strValue = getProperty(propertyName, "");
+      if(strValue.isEmpty()) {
          return defaultValue;
       } else {
          try {
             return Integer.parseInt(strValue);
+         } catch(NumberFormatException nfe) {
+            throw new InitializationException("The '" + prefix + propertyName + "' must be an integer");
+         }
+      }
+   }
+
+   /**
+    * Gets a property as a long.
+    * @param propertyName The property name.
+    * @param defaultValue The default value.
+    * @return The property, or the default value if unspecified.
+    * @throws InitializationException if property is not an integer.
+    */
+   public final long getLongProperty(final String propertyName, final long defaultValue) throws InitializationException {
+      String strValue = getProperty(propertyName, "");
+      if(strValue.isEmpty()) {
+         return defaultValue;
+      } else {
+         try {
+            return Long.parseLong(strValue);
          } catch(NumberFormatException nfe) {
             throw new InitializationException("The '" + prefix + propertyName + "' must be an integer");
          }
@@ -206,8 +224,8 @@ public class InitUtil {
     */
    public final Object initClass(final String propertyName, final Class<?> expectedClass) throws InitializationException {
 
-      String className = props.getProperty(lowercaseNames ? propertyName.toLowerCase() : propertyName);
-      if(className == null || className.length() == 0) {
+      String className = getProperty(propertyName, "");
+      if(className.isEmpty()) {
          return null;
       }
 
@@ -354,7 +372,7 @@ public class InitUtil {
       }
 
       try {
-         long val = Long.parseLong(time);
+         long val = Long.parseLong(time.trim());
          return val * mult;
       } catch(Exception e) {
          throw new InitializationException("Invalid time, '" + time + "'");
@@ -380,4 +398,19 @@ public class InitUtil {
       }
       return pairs;
    }
+
+   /**
+    * The prefix applied to the original properties.
+    */
+   final String prefix;
+
+   /**
+    * The properties with prefix removed.
+    */
+   final Properties props;
+
+   /**
+    * Were property names added as lower-case?
+    */
+   final boolean lowercaseNames;
 }

@@ -6,8 +6,8 @@
         <conf name="test" description="Required for tests" extends="runtime"/>
     </configurations>
     <dependencies>
-        <dependency org="commons-codec" name="commons-codec" rev="1.4" conf="compile->default"/>
-        <dependency org="com.google.guava" name="guava" rev="[14.0,)" conf="compile->default"/>
+        <dependency org="commons-codec" name="commons-codec" rev="[1.4,1.10]" conf="compile->default"/>
+        <dependency org="com.google.guava" name="guava" rev="[14.0,18.0]" conf="compile->default"/>
     </dependencies>
 </ivy-module>
 

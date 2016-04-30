@@ -15,12 +15,12 @@
 
 package org.attribyte.util;
 
+import com.google.common.collect.Lists;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -52,7 +52,7 @@ public class DOMUtil {
    public static final List<Element> getChildElementsByTagName(final Element parentElem, final String childName) {
       NodeList childList = parentElem.getElementsByTagName(childName);
       if(childList.getLength() > 0) {
-         List<Element> childElements = new LinkedList<Element>();
+         List<Element> childElements = Lists.newArrayListWithExpectedSize(childList.getLength());
          for(int i = 0; i < childList.getLength(); i++) {
             Node curr = childList.item(i);
             if(curr instanceof Element && curr.getParentNode() == parentElem) {

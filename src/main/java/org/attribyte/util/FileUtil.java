@@ -17,7 +17,7 @@ package org.attribyte.util;
 
 import java.io.File;
 import java.io.IOException;
-
+import java.nio.file.Files;
 
 /**
  * Utility methods for files.
@@ -32,6 +32,6 @@ public class FileUtil {
     * @throws java.io.IOException on filesystem error
     */
    public static final boolean isSymlink(final File file) throws IOException {
-      return !(file.getAbsolutePath().equals(file.getCanonicalPath()));
+      return Files.isSymbolicLink(file.toPath());
    }
 }

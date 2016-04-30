@@ -15,7 +15,13 @@
 
 package org.attribyte.util;
 
+import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.common.primitives.Ints;
+import com.google.common.primitives.Longs;
 import org.attribyte.api.InitializationException;
 
 import java.util.*;
@@ -28,14 +34,11 @@ public class InitUtil {
 
    /**
     * Creates a properties init util with case-insensitive names.
-    * <p>
-    *    All property names are converted to lower-case.
-    * </p>
     * @param prefix The prefix appended to all property names.
     * @param props The properties.
     */
    public InitUtil(final String prefix, final Properties props) {
-      this(prefix, props, true);
+      this(prefix, props, false);
    }
 
    @SuppressWarnings("unchecked")
@@ -52,7 +55,7 @@ public class InitUtil {
 
       //Include only properties with the specified prefix, maybe lower-case the property name and trim values.
 
-      Set<String> propertyNames = new HashSet<String>();
+      Set<String> propertyNames = Sets.newHashSetWithExpectedSize(8);
       Enumeration pn = props.propertyNames();
       while(pn.hasMoreElements()) {
          propertyNames.add((String)pn.nextElement());
@@ -86,7 +89,7 @@ public class InitUtil {
     * @return The map of properties vs name.
     */
    public Map<String, Properties> split() {
-      Map<String, Properties> propMap = new HashMap<String, Properties>();
+      Map<String, Properties> propMap = Maps.newHashMapWithExpectedSize(4);
       for(Object k : props.keySet()) {
          String key = (String)k;
          int index = key.indexOf('.');
@@ -164,14 +167,11 @@ public class InitUtil {
     */
    public final int getIntProperty(final String propertyName, final int index, final int defaultValue) throws InitializationException {
       String value = getProperty(propertyName, index, null);
-      if(value == null || value.length() == 0) {
-         return defaultValue;
-      }
-
-      try {
-         return Integer.parseInt(value);
-      } catch(NumberFormatException nfe) {
-         throw new InitializationException("The '" + prefix + propertyName + "' must be an integer");
+      Integer intVal = Ints.tryParse(value);
+      if(intVal != null) {
+         return intVal;
+      } else {
+         throw new InitializationException(String.format("The '%s%s' must be an integer", prefix, propertyName));
       }
    }
 
@@ -183,15 +183,12 @@ public class InitUtil {
     * @throws InitializationException if property is not an integer.
     */
    public final int getIntProperty(final String propertyName, final int defaultValue) throws InitializationException {
-      String strValue = getProperty(propertyName, "");
-      if(strValue.isEmpty()) {
-         return defaultValue;
+      String value = getProperty(propertyName, "");
+      Integer intVal = Ints.tryParse(value);
+      if(intVal != null) {
+         return intVal;
       } else {
-         try {
-            return Integer.parseInt(strValue);
-         } catch(NumberFormatException nfe) {
-            throw new InitializationException("The '" + prefix + propertyName + "' must be an integer");
-         }
+         throw new InitializationException(String.format("The '%s%s' must be an integer", prefix, propertyName));
       }
    }
 
@@ -203,15 +200,12 @@ public class InitUtil {
     * @throws InitializationException if property is not an integer.
     */
    public final long getLongProperty(final String propertyName, final long defaultValue) throws InitializationException {
-      String strValue = getProperty(propertyName, "");
-      if(strValue.isEmpty()) {
-         return defaultValue;
+      String value = getProperty(propertyName, "");
+      Long longVal = Longs.tryParse(value);
+      if(longVal != null) {
+         return longVal;
       } else {
-         try {
-            return Long.parseLong(strValue);
-         } catch(NumberFormatException nfe) {
-            throw new InitializationException("The '" + prefix + propertyName + "' must be an integer");
-         }
+         throw new InitializationException(String.format("The '%s%s' must be an integer", prefix, propertyName));
       }
    }
 
@@ -223,26 +217,8 @@ public class InitUtil {
     * @throws InitializationException if the class could not be found or instantiated.
     */
    public final Object initClass(final String propertyName, final Class<?> expectedClass) throws InitializationException {
-
       String className = getProperty(propertyName, "");
-      if(className.isEmpty()) {
-         return null;
-      }
-
-      try {
-         Class<?> c = Class.forName(className);
-         Object o = c.newInstance();
-         if(!expectedClass.isInstance(o)) {
-            throw new InitializationException("The class: '" + className + "' specified for '" + prefix + propertyName + "' does not implement " + expectedClass.getName());
-         }
-         return o;
-      } catch(ClassNotFoundException ce) {
-         throw new InitializationException("The class: '" + className + "' specified for '" + prefix + propertyName + "' was not found in the classpath", ce);
-      } catch(InstantiationException ie) {
-         throw new InitializationException("The class: '" + className + "' specified for '" + prefix + propertyName + "' could not be initialized", ie);
-      } catch(IllegalAccessException iae) {
-         throw new InitializationException("The class: '" + className + "' specified for '" + prefix + propertyName + "' could not be initialized", iae);
-      }
+      return initClass(propertyName, className, expectedClass);
    }
 
    /**
@@ -259,31 +235,42 @@ public class InitUtil {
          return Collections.emptyList();
       }
 
-      List<Object> objList = new LinkedList<Object>();
+      List<String> classNames = Splitter.on(' ').omitEmptyStrings().trimResults().splitToList(classList);
+      List<Object> objList = Lists.newArrayListWithExpectedSize(classNames.size());
+      for(String className : classNames) {
+         objList.add(initClass(propertyName, className, expectedClass));
+      }
+      return objList;
+   }
 
-      StringTokenizer tok = new StringTokenizer(classList);
-      while(tok.hasMoreTokens()) {
-         String className = tok.nextToken().trim();
-         if(className.length() > 0) {
+   private Object initClass(final String propertyName, String className,
+                            final Class<?> expectedClass) throws InitializationException {
 
-            try {
-               Class<?> c = Class.forName(className);
-               Object o = c.newInstance();
-               if(!expectedClass.isInstance(o)) {
-                  throw new InitializationException("The class: '" + className + "' specified for '" + prefix + propertyName + "' does not implement " + expectedClass.getName());
-               }
-               objList.add(o);
-            } catch(ClassNotFoundException ce) {
-               throw new InitializationException("The class: '" + className + "' specified for '" + prefix + propertyName + "' was not found in the classpath", ce);
-            } catch(InstantiationException ie) {
-               throw new InitializationException("The class: '" + className + "' specified for '" + prefix + propertyName + "' could not be initialized", ie);
-            } catch(IllegalAccessException iae) {
-               throw new InitializationException("The class: '" + className + "' specified for '" + prefix + propertyName + "' could not be initialized", iae);
-            }
-         }
+      if(Strings.nullToEmpty(className).isEmpty()) {
+         return null;
       }
 
-      return objList;
+      className = className.trim();
+
+      try {
+         Class<?> c = Class.forName(className);
+         Object o = c.newInstance();
+         if(!expectedClass.isInstance(o)) {
+            throw new InitializationException(
+                    String.format("The class: '%s' specified for '%s%s' does not implement %s",
+                            className, prefix, propertyName, expectedClass.getName())
+            );
+         }
+         return o;
+      } catch(ClassNotFoundException ce) {
+         throw new InitializationException(
+                 String.format("The class: '%s' specified for '%s%s' was not found in the classpath", className, prefix, propertyName),
+                 ce);
+      } catch(InstantiationException | IllegalAccessException ie) {
+         throw new InitializationException(
+                 String.format("The class: '%s' specified for '%s%s' could not be initialized", className, prefix, propertyName),
+                 ie);
+      }
    }
 
    /**
@@ -321,7 +308,7 @@ public class InitUtil {
          return args;
       }
 
-      List<String> argList = new ArrayList<String>(args.length);
+      List<String> argList = Lists.newArrayListWithExpectedSize(args.length);
       for(String arg : args) {
          if(arg.startsWith("-")) {
             arg = arg.substring(1);
@@ -394,7 +381,7 @@ public class InitUtil {
       while(pn.hasMoreElements()) {
          final String name = (String)pn.nextElement();
          final String value = props.getProperty(name);
-         pairs.add(new Pair<String, String>(name, value));
+         pairs.add(new Pair<>(name, value));
       }
       return pairs;
    }

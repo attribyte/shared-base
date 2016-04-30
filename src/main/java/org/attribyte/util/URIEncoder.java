@@ -91,19 +91,13 @@ public class URIEncoder {
       queryBitSet.set('@');
    }
 
-   public static void main(String[] args) throws Exception {
-      String test = "http://attribyte.com/%54est1/%3Fest2?x=y&url=http://cnnfn.com?site=12345";
-      System.out.println("original=" + test);
-      System.out.println("decoded=" + new URIEncoder().recode(test));
-   }
-
    /**
     * Decodes all <em>non-reserved</em> characters in a URL.
     * @param url The url to decode.
     * @return The decoded URL.
     * @throws java.net.URISyntaxException if URL is invalid.
     */
-   public String recode(String url) throws URISyntaxException {
+   public String recode(final String url) throws URISyntaxException {
       return recodeURL(url);
    }
 
@@ -114,7 +108,7 @@ public class URIEncoder {
     * @return The decoded URL.
     * @throws java.net.URISyntaxException if URL is invalid.
     */
-   public static String recodeURL(String url) throws URISyntaxException {
+   public static String recodeURL(final String url) throws URISyntaxException {
       URI uri = new URI(url);
       return recode(uri);
    }
@@ -124,7 +118,7 @@ public class URIEncoder {
     * @param uri The uri.
     * @return The recoded URI as a string.
     */
-   public static String recode(URI uri) {
+   public static String recode(final URI uri) {
       return encode(uri.getScheme(), uri.getAuthority(), uri.getPath(), uri.getQuery(), uri.getFragment());
    }
 

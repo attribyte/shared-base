@@ -26,10 +26,21 @@ import java.io.File;
  */
 public class MimeTypes {
 
+   /**
+    * Gets the type for a file based on the extension.
+    * @param file The file.
+    * @return The type or 'application/octet-stream' if unknown.
+    */
    public static final String getType(final File file) {
       return getType(file, TYPE_OCTET_STREAM);
    }
 
+   /**
+    * Gets the type for a file based on the extension.
+    * @param file The file.
+    * @param defaultType The default type if undetected.
+    * @return The detected or default type.
+    */
    public static final String getType(final File file, final String defaultType) {
       String name = file.getName();
       int index = name.lastIndexOf('.');
@@ -41,6 +52,9 @@ public class MimeTypes {
       }
    }
 
+   /**
+    * The type, 'application/octet-stream'.
+    */
    public static final String TYPE_OCTET_STREAM = "application/octet-stream";
 
    private static final ImmutableMap<String, String> extensionMap =

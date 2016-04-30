@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.attribyte</groupId>
     <artifactId>attribyte-shared-base</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
     <name>Attribyte Shared Base</name>
     <description>Interfaces, classes and utility methods shared by all Attribyte OSS projects</description>
@@ -38,7 +38,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>[14.0,18.0]</version>
+            <version>[14.0,19.0]</version>
         </dependency>
     </dependencies>
 </project>

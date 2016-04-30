@@ -201,7 +201,7 @@ public class EncodingUtil {
    /**
     * Supported <tt>Deflate</tt> strategies.
     */
-   public static enum DeflateStrategy {
+   public enum DeflateStrategy {
 
       /**
        * No compression.
@@ -228,7 +228,7 @@ public class EncodingUtil {
        */
       HUFFMAN_ONLY(Deflater.HUFFMAN_ONLY, (byte)4);
 
-      private DeflateStrategy(final int strategy, final byte id) {
+      DeflateStrategy(final int strategy, final byte id) {
          this.strategy = strategy;
          this.id = id;
       }

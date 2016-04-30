@@ -17,7 +17,6 @@ package org.attribyte.util;
 
 import java.nio.ByteBuffer;
 
-
 /**
  * Convenience methods for <code>ByteBuffer</code>.
  * @author Matt Hamer - Attribyte, LLC

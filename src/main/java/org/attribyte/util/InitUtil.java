@@ -110,6 +110,15 @@ public class InitUtil {
    }
 
    /**
+    * Determine if a non-empty property exists.
+    * @param propertyName The property name.
+    * @return Does the property exist?
+    */
+   public boolean hasProperty(final String propertyName) {
+      return !Strings.isNullOrEmpty(getProperty(propertyName));
+   }
+
+   /**
     * Gets a property.
     * @param propertyName The property name.
     * @return The property, or <tt>null</tt> if unspecified.

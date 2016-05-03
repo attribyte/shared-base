@@ -176,6 +176,10 @@ public class InitUtil {
     */
    public final int getIntProperty(final String propertyName, final int index, final int defaultValue) throws InitializationException {
       String value = getProperty(propertyName, index, null);
+      if(value == null) {
+         return defaultValue;
+      }
+
       Integer intVal = Ints.tryParse(value);
       if(intVal != null) {
          return intVal;
@@ -192,7 +196,11 @@ public class InitUtil {
     * @throws InitializationException if property is not an integer.
     */
    public final int getIntProperty(final String propertyName, final int defaultValue) throws InitializationException {
-      String value = getProperty(propertyName, "");
+      String value = getProperty(propertyName, "").trim();
+      if(value.isEmpty()) {
+         return defaultValue;
+      }
+
       Integer intVal = Ints.tryParse(value);
       if(intVal != null) {
          return intVal;
@@ -209,7 +217,11 @@ public class InitUtil {
     * @throws InitializationException if property is not an integer.
     */
    public final long getLongProperty(final String propertyName, final long defaultValue) throws InitializationException {
-      String value = getProperty(propertyName, "");
+      String value = getProperty(propertyName, "").trim();
+      if(value.isEmpty()) {
+         return defaultValue;
+      }
+
       Long longVal = Longs.tryParse(value);
       if(longVal != null) {
          return longVal;

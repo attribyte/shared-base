@@ -1,11 +1,11 @@
-##About
+## About
 
 Common interfaces, exceptions and utilities used by the following Attribyte projects:
 
 * [http-model](https://github.com/attribyte/http-model)
 * [pubsubhub](https://github.com/attribyte/pubsubhub)
 
-##Building
+## Building
 
 The build uses [Apache Ant](http://ant.apache.org/) and
 [Apache Ivy](https://ant.apache.org/ivy/) to resolve dependencies. The following ant tasks
@@ -16,12 +16,12 @@ are available:
 * full-dist - Resolves dependencies, compiles the source, creates a jar in dist/lib, and copies dependencies to dist/extlib
 * clean - Removes all build files and jars.
 
-##Dependencies
+## Dependencies
 
 * [commons-codec](http://commons.apache.org/proper/commons-codec/)
 * [Google Guava](https://code.google.com/p/guava-libraries/)
  
-##License
+## License
 
 Copyright 2014 [Attribyte, LLC](https://attribyte.com)
 

@@ -19,6 +19,7 @@ package org.attribyte.api;
  * An exception raised for database or other persistent
  * storage problems.
  */
+@SuppressWarnings("serial")
 public class DatastoreException extends Exception {
 
    public DatastoreException(String message) {

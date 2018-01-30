@@ -19,6 +19,7 @@ package org.attribyte.api;
  * An exception raised when on operation (like a stream read)
  * exceeds a size limit.
  */
+@SuppressWarnings("serial")
 public class DataLimitException extends java.io.IOException {
 
    public DataLimitException(String message) {

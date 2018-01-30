@@ -20,6 +20,7 @@ import java.net.URISyntaxException;
 /**
  * An exception raised when an attempt is made to create an invalid URI.
  */
+@SuppressWarnings("serial")
 public class InvalidURIException extends java.io.IOException {
 
    public InvalidURIException(String message) {

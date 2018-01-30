@@ -34,7 +34,9 @@ public abstract class CLI {
 
    /**
     * Creates the command line interface.
+    * @param appName The application name.
     * @param args The command line arguments.
+    * @throws IOException on load error.
     */
    protected CLI(final String appName, final String args[]) throws IOException {
       this(appName, DEFAULT_INSTALL_DIR_PROP, args);
@@ -42,8 +44,10 @@ public abstract class CLI {
 
    /**
     * Creates the command line interface with a custom system property name for the install directory.
+    * @param appName The application name.
     * @param installDirSystemProperty A system property that indicates the install directory.
     * @param args The command line arguments.
+    * @throws IOException on load error.
     */
    protected CLI(final String appName, final String installDirSystemProperty, String args[]) throws IOException {
       this.appName = appName;
@@ -104,7 +108,6 @@ public abstract class CLI {
     * Examines configuration keys for those end in '.file'.
     * If their values don't begin with '/', the system install directory
     * is prepended.
-    *
     * @param props The properties.
     * @return The properties with modified values.
     */

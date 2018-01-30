@@ -41,6 +41,7 @@ public class StringUtil {
     * @return Does the string have content?
     * @deprecated Use Guava.
     */
+   @Deprecated
    public static final boolean hasContent(final String str) {
       return str != null && str.length() > 0;
    }

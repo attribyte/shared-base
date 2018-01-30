@@ -18,6 +18,7 @@ package org.attribyte.api;
 /**
  * An exception raised when component initialization fails.
  */
+@SuppressWarnings("serial")
 public class InitializationException extends Exception {
 
    public InitializationException(String message) {

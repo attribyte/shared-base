@@ -56,7 +56,7 @@ public class InitUtil {
       //Include only properties with the specified prefix, maybe lower-case the property name and trim values.
 
       Set<String> propertyNames = Sets.newHashSetWithExpectedSize(8);
-      Enumeration pn = props.propertyNames();
+      Enumeration<?> pn = props.propertyNames();
       while(pn.hasMoreElements()) {
          propertyNames.add((String)pn.nextElement());
       }
@@ -397,7 +397,7 @@ public class InitUtil {
          return Collections.emptyList();
       }
 
-      Enumeration pn = props.propertyNames();
+      Enumeration<?> pn = props.propertyNames();
       List<Pair<String, String>> pairs = Lists.newArrayListWithExpectedSize(props.size());
       while(pn.hasMoreElements()) {
          final String name = (String)pn.nextElement();

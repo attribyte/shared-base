@@ -223,6 +223,11 @@ public class DateFormatSet {
     * @return The date format set with time zone and locale changed.
     */
    public DateFormatSet withTimeZone(final DateTimeZone dtz, final Locale locale) {
+      DateTimeZone checkZone = dtz != null ? dtz : DateTimeZone.getDefault();
+      Locale checkLocale = locale != null ? locale : Locale.getDefault();
+      if(checkZone.equals(timeZone) && checkLocale.equals(locale)) {
+         return this;
+      }
       return new DateFormatSet(formatters.values(), dtz, locale);
    }
 
@@ -242,6 +247,10 @@ public class DateFormatSet {
     * @return The date format set with time zone changed.
     */
    public DateFormatSet withTimeZone(final DateTimeZone dtz) {
+      DateTimeZone checkZone = dtz != null ? dtz : DateTimeZone.getDefault();
+      if(checkZone.equals(timeZone)) {
+         return this;
+      }
       return new DateFormatSet(formatters.values(), dtz, locale);
    }
 
@@ -260,6 +269,10 @@ public class DateFormatSet {
     * @return The date format set with time zone and locale changed.
     */
    public DateFormatSet withLocale(final Locale locale) {
+      Locale checkLocale = locale != null ? locale : Locale.getDefault();
+      if(checkLocale.equals(locale)) {
+         return this;
+      }
       return new DateFormatSet(formatters.values(), timeZone, locale);
    }
 

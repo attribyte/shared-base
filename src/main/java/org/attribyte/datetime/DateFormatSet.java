@@ -120,11 +120,6 @@ public class DateFormatSet {
    }
 
    /**
-    * The default date format set.
-    */
-   public static final DateFormatSet DEFAULT = new DateFormatSet();
-
-   /**
     * Creates a format set from a collection of formatters with default time zone and locale.
     * @param formatters The collection of formatters.
     * @throws IllegalArgumentException if more than one formatter has the same name or alias.
@@ -255,7 +250,7 @@ public class DateFormatSet {
    }
 
    /**
-    * Creates a new set with Java time zone and locale changed.
+    * Creates a new set with Java time zone changed.
     * @param tz The time zone.
     * @return The date format set with time zone changed.
     */
@@ -266,7 +261,7 @@ public class DateFormatSet {
    /**
     * Creates a new set with locale changed.
     * @param locale The locale.
-    * @return The date format set with time zone and locale changed.
+    * @return The date format set with locale changed.
     */
    public DateFormatSet withLocale(final Locale locale) {
       Locale checkLocale = locale != null ? locale : Locale.getDefault();
@@ -299,6 +294,11 @@ public class DateFormatSet {
     * An immutable list of the default formatters.
     */
    public static final ImmutableList<NamedFormatter> DEFAULT_FORMATTERS = ImmutableList.copyOf(defaultFormatters());
+
+   /**
+    * The default date format set.
+    */
+   public static final DateFormatSet DEFAULT = new DateFormatSet(DEFAULT_FORMATTERS);
 
    /**
     * Creates a list of the default formatters.

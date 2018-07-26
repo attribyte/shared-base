@@ -118,18 +118,6 @@ public class DFSCache {
       public final Locale locale;
    }
 
-   public static void main(String[] args) {
-      DFSCache cache = new DFSCache();
-
-   }
-
-   /**
-    * Cretes a cache with the default date format set.
-    */
-   public DFSCache() {
-      this(DateFormatSet.DEFAULT);
-   }
-
    /**
     * Creates a cache with a non-standard default date format set.
     * @param defaultSet The default set.
@@ -146,6 +134,11 @@ public class DFSCache {
                  }
               });
    }
+
+   /**
+    * The default cache created with {@code DateFormatSet.DEFAULT}.
+    */
+   public static final DFSCache DEFAULT = new DFSCache(DateFormatSet.DEFAULT);
 
    /**
     * Gets a new set with a pre-built key.

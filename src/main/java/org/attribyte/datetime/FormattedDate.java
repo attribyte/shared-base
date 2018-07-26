@@ -30,34 +30,73 @@ import java.util.TimeZone;
 public class FormattedDate extends Date {
 
    /**
-    * The associated date format set.
+    * Creates a formatted date from a Java date.
+    * @param date The date.
+    * @param formatSet The format set.
     */
-   private final DateFormatSet formatSet;
-
    public FormattedDate(final Date date, final DateFormatSet formatSet) {
       super(date.getTime());
       this.formatSet = formatSet;
    }
 
-   public FormattedDate(final long time, final DateFormatSet formatSet) {
-      super(time);
+   /**
+    * Creates a formatted date from a timestamp.
+    * @param timestamp The timestamp.
+    * @param formatSet The format set.
+    */
+   public FormattedDate(final long timestamp, final DateFormatSet formatSet) {
+      super(timestamp);
       this.formatSet = formatSet;
    }
 
-   public FormattedDate(final long time, final TimeZone tz) {
-      super(time);
-      this.formatSet = tz == null ? DateFormatSet.DEFAULT : DateFormatSet.DEFAULT.withTimeZone(tz);
+   /**
+    * Creates a formatted date with the default format set and a Java time zone.
+    * @param timestamp The timestamp.
+    * @param tz The time zone.
+    */
+   public FormattedDate(final long timestamp, final TimeZone tz) {
+      super(timestamp);
+      this.formatSet = DFSCache.DEFAULT.withTimeZone(tz);
    }
 
-
-   public FormattedDate(final FormattedDate other, final TimeZone tz) {
-      super(other.getTime());
-      this.formatSet = other.formatSet.withTimeZone(tz);
+   /**
+    * Creates a formatted date with the default format set and a time zone.
+    * @param timestamp The timestamp.
+    * @param tz The time zone.
+    */
+   public FormattedDate(final long timestamp, final DateTimeZone tz) {
+      super(timestamp);
+      this.formatSet = DFSCache.DEFAULT.withTimeZone(tz);
    }
 
-   public FormattedDate(final FormattedDate other, final TimeZone tz, final Locale locale) {
-      super(other.getTime());
-      this.formatSet = other.formatSet.withTimeZone(tz, locale);
+   /**
+    * Creates a formatted date with the default format set, a time zone and a locale.
+    * @param timestamp The timestamp.
+    * @param tz The time zone.
+    * @param locale The locale.
+    */
+   public FormattedDate(final long timestamp, final DateTimeZone tz, final Locale locale) {
+      super(timestamp);
+      this.formatSet = DFSCache.DEFAULT.withTimeZone(tz, locale);
+   }
+
+   /**
+    * Creates a formatted date with the default format set, a Java time zone and a locale.
+    * @param timestamp The timestamp.
+    * @param tz The time zone.
+    * @param locale The locale.
+    */
+   public FormattedDate(final long timestamp, final TimeZone tz, final Locale locale) {
+      super(timestamp);
+      this.formatSet = DFSCache.DEFAULT.withTimeZone(tz, locale);
+   }
+
+   /**
+    * Gets the locale.
+    * @return The locale.
+    */
+   public Locale getLocale() {
+      return formatSet.locale;
    }
 
    /**
@@ -340,4 +379,9 @@ public class FormattedDate extends Date {
       return (currTime.year().get() == checkTime.year().get() &&
               currTime.dayOfYear().get() == checkTime.dayOfYear().get());
    }
+
+   /**
+    * The associated date format set.
+    */
+   private final DateFormatSet formatSet;
 }

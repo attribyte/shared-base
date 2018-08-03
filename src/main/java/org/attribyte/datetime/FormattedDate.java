@@ -383,5 +383,5 @@ public class FormattedDate extends Date {
    /**
     * The associated date format set.
     */
-   private final DateFormatSet formatSet;
+   final DateFormatSet formatSet;
 }

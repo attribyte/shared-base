@@ -197,6 +197,40 @@ public class DFSCache {
    }
 
    /**
+    * Gets a new formatted date with changed time zone and locale.
+    * @param date The formatted date.
+    * @param dtz The time zone.
+    * @param locale The locale.
+    * @return The new formatted date or the input if timezone and locale are identical.
+    */
+   public FormattedDate withTimeZone(final FormattedDate date, final DateTimeZone dtz, final Locale locale) {
+      DateFormatSet formatSet = withTimeZone(dtz, locale);
+      return date.formatSet == formatSet ? date : new FormattedDate(date.getTime(), formatSet);
+   }
+
+   /**
+    * Gets a new formatted date with changed time zone and locale.
+    * @param date The formatted date.
+    * @param dtz The time zone.
+    * @return The new formatted date or the input if timezone and locale are identical.
+    */
+   public FormattedDate withTimeZone(final FormattedDate date, final DateTimeZone dtz) {
+      DateFormatSet formatSet = withTimeZone(dtz);
+      return date.formatSet == formatSet ? date : new FormattedDate(date.getTime(), formatSet);
+   }
+
+   /**
+    * Gets a new formatted date with changed time zone and locale.
+    * @param date The formatted date.
+    * @param tz The time zone.
+    * @return The new formatted date or the input if timezone and locale are identical.
+    */
+   public FormattedDate withTimeZone(final FormattedDate date, final TimeZone tz) {
+      DateFormatSet formatSet = withTimeZone(tz);
+      return date.formatSet == formatSet ? date : new FormattedDate(date.getTime(), formatSet);
+   }
+
+   /**
     * The default date format set.
     */
    public final DateFormatSet defaultSet;

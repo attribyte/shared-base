@@ -15,6 +15,7 @@
 
 package org.attribyte.datetime;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -94,6 +95,15 @@ public class DateFormatSet {
        */
       public NamedFormatter withLocale(final Locale locale) {
          return new NamedFormatter(this.name, formatter.withLocale(locale), this.aliases);
+      }
+
+      @Override
+      public String toString() {
+         return MoreObjects.toStringHelper(this)
+                 .add("name", name)
+                 .add("formatter", formatter)
+                 .add("aliases", aliases)
+                 .toString();
       }
 
       /**
@@ -223,7 +233,7 @@ public class DateFormatSet {
       if(checkZone.equals(timeZone) && checkLocale.equals(locale)) {
          return this;
       }
-      return new DateFormatSet(formatters.values(), dtz, locale);
+      return new DateFormatSet(uniqueFormatters(), dtz, locale);
    }
 
    /**
@@ -246,7 +256,7 @@ public class DateFormatSet {
       if(checkZone.equals(timeZone)) {
          return this;
       }
-      return new DateFormatSet(formatters.values(), dtz, locale);
+      return new DateFormatSet(uniqueFormatters(), dtz, locale);
    }
 
    /**
@@ -268,7 +278,7 @@ public class DateFormatSet {
       if(checkLocale.equals(locale)) {
          return this;
       }
-      return new DateFormatSet(formatters.values(), timeZone, locale);
+      return new DateFormatSet(uniqueFormatters(), timeZone, locale);
    }
 
    /**
@@ -305,6 +315,7 @@ public class DateFormatSet {
     * @return The list of formatters.
     */
    public static List<NamedFormatter> defaultFormatters() {
+
       List<NamedFormatter> formatters = Lists.newArrayList();
       formatters.add(new NamedFormatter("shortTime", DateTimeFormat.shortTime(),"st", "short_time"));
       formatters.add(new NamedFormatter("medTime", DateTimeFormat.mediumTime(),"mt", "med_time"));
@@ -339,6 +350,21 @@ public class DateFormatSet {
    }
 
    /**
+    * @return A list of uniquely-named formatters.
+    */
+   private List<NamedFormatter> uniqueFormatters() {
+      Set<String> seen = Sets.newHashSet();
+      List<NamedFormatter> formatters = Lists.newArrayList();
+      for(NamedFormatter formatter : this.formatters.values()) {
+         if(!seen.contains(formatter.name)) {
+            formatters.add(formatter);
+            seen.add(formatter.name);
+         }
+      }
+      return formatters;
+   }
+
+   /**
     * The current time zone for this set.
     */
    public final DateTimeZone timeZone;
@@ -352,5 +378,4 @@ public class DateFormatSet {
     * The map of formatters.
     */
    public final ImmutableMap<String, NamedFormatter> formatters;
-
 }

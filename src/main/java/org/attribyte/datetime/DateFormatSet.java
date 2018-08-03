@@ -219,6 +219,7 @@ public class DateFormatSet {
          }
       }
       this.formatters = ImmutableMap.copyOf(builder);
+      this.uniqueFormatters = ImmutableList.copyOf(formatters);
    }
 
    /**
@@ -233,7 +234,7 @@ public class DateFormatSet {
       if(checkZone.equals(timeZone) && checkLocale.equals(locale)) {
          return this;
       }
-      return new DateFormatSet(uniqueFormatters(), dtz, locale);
+      return new DateFormatSet(uniqueFormatters, dtz, locale);
    }
 
    /**
@@ -256,7 +257,7 @@ public class DateFormatSet {
       if(checkZone.equals(timeZone)) {
          return this;
       }
-      return new DateFormatSet(uniqueFormatters(), dtz, locale);
+      return new DateFormatSet(uniqueFormatters, dtz, locale);
    }
 
    /**
@@ -278,7 +279,7 @@ public class DateFormatSet {
       if(checkLocale.equals(locale)) {
          return this;
       }
-      return new DateFormatSet(uniqueFormatters(), timeZone, locale);
+      return new DateFormatSet(uniqueFormatters, timeZone, locale);
    }
 
    /**
@@ -350,21 +351,6 @@ public class DateFormatSet {
    }
 
    /**
-    * @return A list of uniquely-named formatters.
-    */
-   private List<NamedFormatter> uniqueFormatters() {
-      Set<String> seen = Sets.newHashSet();
-      List<NamedFormatter> formatters = Lists.newArrayList();
-      for(NamedFormatter formatter : this.formatters.values()) {
-         if(!seen.contains(formatter.name)) {
-            formatters.add(formatter);
-            seen.add(formatter.name);
-         }
-      }
-      return formatters;
-   }
-
-   /**
     * The current time zone for this set.
     */
    public final DateTimeZone timeZone;
@@ -378,4 +364,9 @@ public class DateFormatSet {
     * The map of formatters.
     */
    public final ImmutableMap<String, NamedFormatter> formatters;
+
+   /**
+    * A list of the unique formatters.
+    */
+   private final ImmutableList<NamedFormatter> uniqueFormatters;
 }

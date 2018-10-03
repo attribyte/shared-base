@@ -25,6 +25,7 @@ import com.google.common.primitives.Longs;
 import org.attribyte.api.InitializationException;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Convenience methods for initializing from properties.
@@ -353,37 +354,84 @@ public class InitUtil {
     * Gets a time in milliseconds from a string that allows the units 'ms', 's', 'm', 'h', 'd' at the end.
     * @param time The time string.
     * @return The milliseconds, or Long.MIN_VALUE if units are unspecified or not recognized.
-    * @throws InitializationException if the time is not an integer.
     */
-   public static final long millisFromTime(String time) throws InitializationException {
+   public static final long millisFromTime(String time) {
 
-      long mult = 0L;
-      if(time.endsWith("ms")) {
-         time = time.substring(0, time.length() - 2);
-         mult = 1L;
-      } else if(time.endsWith("s")) {
-         time = time.substring(0, time.length() - 1);
-         mult = 1000L;
-      } else if(time.endsWith("m")) {
-         time = time.substring(0, time.length() - 1);
-         mult = 60000L;
-      } else if(time.endsWith("h")) {
-         time = time.substring(0, time.length() - 1);
-         mult = 3600L * 1000L;
-      } else if(time.endsWith("d")) {
-         time = time.substring(0, time.length() - 1);
-         mult = 3600L * 1000L * 24L;
-      }
+      time = Strings.nullToEmpty(time).trim();
 
-      if(mult == 0L) {
+      if(time.length() < 2) {
          return Long.MIN_VALUE;
       }
 
-      try {
-         long val = Long.parseLong(time.trim());
-         return val * mult;
-      } catch(Exception e) {
-         throw new InitializationException("Invalid time, '" + time + "'");
+      int unitStart = -1;
+      int unitCheckStart = 0;
+      if(time.charAt(0) == '-') {
+         unitCheckStart = 1;
+      }
+
+      for(int i = unitCheckStart; i < time.length(); i++) {
+         if(!Character.isDigit(time.charAt(i))) {
+            unitStart = i;
+            break;
+         }
+      }
+
+      if(unitStart < 1) {
+         return Long.MIN_VALUE;
+      }
+
+      Long number = Longs.tryParse(time.substring(0, unitStart).trim());
+      if(number == null) {
+         return Long.MIN_VALUE;
+      }
+
+      TimeUnit unit = timeUnit(time.substring(unitStart).trim());
+
+      return unit != null ? TimeUnit.MILLISECONDS.convert(number, unit) : Long.MIN_VALUE;
+   }
+
+   /**
+    * Gets a time unit from a string.
+    * Examples: {@code nanos, μs, ms, s, hour, minutes, day}.
+    * @param str The string.
+    * @return The time unit or {@code null} if no match.
+    */
+   private static TimeUnit timeUnit(final String str) {
+
+      switch(Strings.nullToEmpty(str).trim().toLowerCase()) {
+         case "ns":
+         case "nanos":
+         case "nano":
+            return TimeUnit.NANOSECONDS;
+         case "us":
+         case "μs":
+         case "micros":
+         case "micro":
+            return TimeUnit.MICROSECONDS;
+         case "ms":
+         case "millis":
+         case "milli":
+            return TimeUnit.MILLISECONDS;
+         case "s":
+         case "second":
+         case "seconds":
+            return TimeUnit.SECONDS;
+         case "m":
+         case "minute":
+         case "minutes":
+            return TimeUnit.MINUTES;
+         case "h":
+         case "hr":
+         case "hrs":
+         case "hours":
+         case "hour":
+            return TimeUnit.HOURS;
+         case "d":
+         case "days":
+         case "day":
+            return TimeUnit.DAYS;
+         default:
+            return null;
       }
    }
 

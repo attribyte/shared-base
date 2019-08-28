@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Attribyte, LLC 
+ * Copyright 2010-2019 Attribyte, LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -33,6 +33,14 @@ public interface Logger {
    public void info(String msg);
 
    /**
+    * Logs a notice.
+    * @param msg The message.
+    */
+   public default void notice(String msg) {
+      info(msg);
+   }
+
+   /**
     * Logs a warning message.
     * @param msg The message.
     */
@@ -46,6 +54,23 @@ public interface Logger {
    public void warn(String msg, Throwable t);
 
    /**
+    * Logs an alert message.
+    * @param msg The message.
+    */
+   public default void alert(String msg) {
+      warn(msg);
+   }
+
+   /**
+    * Logs an alert message with an exception.
+    * @param msg The message.
+    * @param t The exception.
+    */
+   public default void alert(String msg, Throwable t) {
+      warn(msg, t);
+   }
+
+   /**
     * Logs an error message.
     * @param msg The message.
     */
@@ -57,4 +82,38 @@ public interface Logger {
     * @param t The exception.
     */
    public void error(String msg, Throwable t);
+
+   /**
+    * Logs a critical error message.
+    * @param msg The message.
+    */
+   public default void critical(String msg) {
+      error(msg);
+   }
+
+   /**
+    * Logs a critical error with an exception.
+    * @param msg The message.
+    * @param t The exception.
+    */
+   public default void critical(String msg, Throwable t) {
+      error(msg, t);
+   }
+
+   /**
+    * Logs an emergency error message.
+    * @param msg The message.
+    */
+   public default void emergency(String msg) {
+      error(msg);
+   }
+
+   /**
+    * Logs an emergency error with an exception.
+    * @param msg The message.
+    * @param t The exception.
+    */
+   public default void emergency(String msg, Throwable t) {
+      error(msg, t);
+   }
 }

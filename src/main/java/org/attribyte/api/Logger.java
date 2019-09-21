@@ -116,4 +116,14 @@ public interface Logger {
    public default void emergency(String msg, Throwable t) {
       error(msg, t);
    }
+
+   /**
+    * Immediately flush any deferred messages, if any.
+    */
+   public default void flush() {}
+
+   /**
+    * Shutdown the logger.
+    */
+   public default void shutdown() {}
 }

@@ -323,15 +323,15 @@ public class DateFormatSet {
       formatters.add(new NamedFormatter("longTime", DateTimeFormat.longTime(),"lt", "long_time"));
       formatters.add(new NamedFormatter("fullTime", DateTimeFormat.fullTime(),"ft", "full_time"));
 
-      formatters.add(new NamedFormatter("shortDate", DateTimeFormat.shortTime(),"sd", "short_date"));
-      formatters.add(new NamedFormatter("medDate", DateTimeFormat.mediumTime(),"md", "med_date"));
-      formatters.add(new NamedFormatter("longDate", DateTimeFormat.longTime(),"ld", "long_date"));
-      formatters.add(new NamedFormatter("fullDate", DateTimeFormat.fullTime(),"fd", "full_date"));
+      formatters.add(new NamedFormatter("shortDate", DateTimeFormat.shortDate(),"sd", "short_date"));
+      formatters.add(new NamedFormatter("medDate", DateTimeFormat.mediumDate(),"md", "med_date"));
+      formatters.add(new NamedFormatter("longDate", DateTimeFormat.longDate(),"ld", "long_date"));
+      formatters.add(new NamedFormatter("fullDate", DateTimeFormat.fullDate(),"fd", "full_date"));
 
-      formatters.add(new NamedFormatter("shortDateTime", DateTimeFormat.shortTime(),"sdt", "short_date_time"));
-      formatters.add(new NamedFormatter("medDateTime", DateTimeFormat.mediumTime(),"mdt", "med_date_time"));
-      formatters.add(new NamedFormatter("longDateTime", DateTimeFormat.longTime(),"ldt", "long_date_time"));
-      formatters.add(new NamedFormatter("fullDateTime", DateTimeFormat.fullTime(),"fdt", "full_date_time"));
+      formatters.add(new NamedFormatter("shortDateTime", DateTimeFormat.shortDateTime(),"sdt", "short_date_time"));
+      formatters.add(new NamedFormatter("medDateTime", DateTimeFormat.mediumDateTime(),"mdt", "med_date_time"));
+      formatters.add(new NamedFormatter("longDateTime", DateTimeFormat.longDateTime(),"ldt", "long_date_time"));
+      formatters.add(new NamedFormatter("fullDateTime", DateTimeFormat.fullDateTime(),"fdt", "full_date_time"));
 
       formatters.add(new NamedFormatter("isoDateTime", ISODateTimeFormat.dateTimeNoMillis(),"idt", "iso_date_time"));
 

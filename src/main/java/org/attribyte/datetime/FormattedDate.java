@@ -169,7 +169,7 @@ public class FormattedDate extends Date {
     * @return The formatted time.
     */
    public String getFullTime() {
-      return formatSet.formatter(Format.LONG_TIME).print(getTime());
+      return formatSet.formatter(Format.FULL_TIME).print(getTime());
    }
 
    /**

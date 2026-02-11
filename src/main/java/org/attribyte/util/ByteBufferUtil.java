@@ -20,8 +20,12 @@ import java.nio.ByteBuffer;
 /**
  * Convenience methods for <code>ByteBuffer</code>.
  * @author Matt Hamer - Attribyte, LLC
+ * @deprecated This is a trivial utility. Use {@link java.nio.ByteBuffer#hasArray()} and
+ * {@link java.nio.ByteBuffer#array()} directly, or use
+ * {@code ByteBuffer.get(new byte[buf.remaining()])} for non-array-backed buffers.
  */
-public class ByteBufferUtil {
+@Deprecated
+public class   ByteBufferUtil {
 
    /**
     * Gets a byte array from a buffer.
@@ -32,7 +36,9 @@ public class ByteBufferUtil {
     * </p>
     * @param buf The buffer. If <code>null</code>, <code>null</code> is returned.
     * @return The array of bytes.
+    * @deprecated See class-level deprecation notice.
     */
+   @Deprecated
    public static final byte[] array(final ByteBuffer buf) {
       if(buf == null) {
          return null;

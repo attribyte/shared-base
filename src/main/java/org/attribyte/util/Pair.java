@@ -19,7 +19,11 @@ package org.attribyte.util;
  * @param <K> The key class
  * @param <V> The value class
  * @author Matt Hamer - Attribyte, LLC
+ * @deprecated Use {@link java.util.Map.Entry} instead. For an immutable pair, use
+ * {@link java.util.AbstractMap.SimpleImmutableEntry AbstractMap.SimpleImmutableEntry}
+ * or, on Java 9+, {@code Map.entry(key, value)}.
  */
+@Deprecated
 public class Pair<K, V> {
 
    /**

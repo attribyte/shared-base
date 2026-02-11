@@ -35,6 +35,16 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TimeZone;
 
+/**
+ * A collection of named date/time formatters built on Joda-Time.
+ * @deprecated This class is built on Joda-Time, which is in maintenance mode.
+ * Use {@link java.time.format.DateTimeFormatter} from the {@code java.time} API instead.
+ * Standard formatters are available via {@link java.time.format.DateTimeFormatter#ofLocalizedDate(java.time.format.FormatStyle)},
+ * {@link java.time.format.DateTimeFormatter#ofLocalizedTime(java.time.format.FormatStyle)}, and
+ * {@link java.time.format.DateTimeFormatter#ofLocalizedDateTime(java.time.format.FormatStyle)}.
+ * Custom patterns can be created with {@link java.time.format.DateTimeFormatter#ofPattern(String)}.
+ */
+@Deprecated
 public class DateFormatSet {
 
    /**

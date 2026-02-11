@@ -26,7 +26,16 @@ import java.util.TimeZone;
 
 /**
  * A {@code java.util.Date} with various built-in formatting options.
+ * @deprecated This class is built on Joda-Time, which is in maintenance mode.
+ * Use {@link java.time.ZonedDateTime} or {@link java.time.Instant} with
+ * {@link java.time.format.DateTimeFormatter} from the {@code java.time} API instead.
+ * For example:
+ * <pre>{@code
+ * ZonedDateTime zdt = Instant.ofEpochMilli(timestamp).atZone(ZoneId.of("America/New_York"));
+ * String formatted = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG).format(zdt);
+ * }</pre>
  */
+@Deprecated
 public class FormattedDate extends Date {
 
    /**

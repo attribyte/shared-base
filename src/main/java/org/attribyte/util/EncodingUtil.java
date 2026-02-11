@@ -113,7 +113,10 @@ public class EncodingUtil {
     * Convert a string of hex to bytes.
     * @param hex The hex string.
     * @return The bytes.
+    * @deprecated Use {@link java.util.HexFormat} (Java 17+) instead,
+    * e.g. {@code HexFormat.of().parseHex(hex)}.
     */
+   @Deprecated
    public static final byte[] fromHex(final String hex) {
 
       char[] ch = hex.toCharArray();
@@ -158,7 +161,10 @@ public class EncodingUtil {
     * Converts bytes to a string of hex.
     * @param bytes The bytes
     * @return The bytes as a hex string.
+    * @deprecated Use {@link java.util.HexFormat} (Java 17+) instead,
+    * e.g. {@code HexFormat.of().withUpperCase().formatHex(bytes)}.
     */
+   @Deprecated
    public static final String toHex(final byte[] bytes) {
 
       char[] buf = new char[bytes.length * 2];
@@ -184,7 +190,10 @@ public class EncodingUtil {
     * Encode bytes as base64.
     * @param b The bytes.
     * @return The encoded string.
+    * @deprecated Use {@link java.util.Base64} instead,
+    * e.g. {@code Base64.getEncoder().encodeToString(b)}.
     */
+   @Deprecated
    public static final String encodeBase64(final byte[] b) {
       return base64.encode(b);
    }
@@ -193,7 +202,10 @@ public class EncodingUtil {
     * Decode base64 to bytes.
     * @param s The encoded string.
     * @return The bytes.
+    * @deprecated Use {@link java.util.Base64} instead,
+    * e.g. {@code Base64.getDecoder().decode(s)}.
     */
+   @Deprecated
    public static final byte[] decodeBase64(final String s) {
       return base64.decode(s);
    }

@@ -39,7 +39,8 @@ public class StringUtil {
     * Determines if a string is non-null, non-empty.
     * @param str The string.
     * @return Does the string have content?
-    * @deprecated Use Guava.
+    * @deprecated Use {@code !Strings.isNullOrEmpty(str)} from Guava, or simply
+    * {@code str != null && !str.isEmpty()}.
     */
    @Deprecated
    public static final boolean hasContent(final String str) {
@@ -79,7 +80,12 @@ public class StringUtil {
     * @param str1 The first string.
     * @param str2 The second string.
     * @return Are the strings equal?
+    * @deprecated Use {@link java.util.Objects#equals(Object, Object)} for null-safe equality.
+    * Note: this method treats {@code null} and empty string as equal, while {@code Objects.equals}
+    * treats them as different. If you need the null-equals-empty semantic, use
+    * {@code Objects.equals(Strings.nullToEmpty(str1), Strings.nullToEmpty(str2))}.
     */
+   @Deprecated
    @SuppressWarnings({"StringEquality"})
    public static boolean equals(final String str1, final String str2) {
       return str1 == str2 || Strings.nullToEmpty(str1).equals(Strings.nullToEmpty(str2));

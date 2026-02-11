@@ -25,7 +25,12 @@ import org.apache.commons.codec.net.URLCodec;
 
 /**
  * Utility methods for decoding URIs.
+ * @deprecated Use the {@link java.net.URI} multi-argument constructors for RFC-compliant encoding,
+ * e.g. {@code new URI(scheme, authority, path, query, fragment)}. For individual component encoding,
+ * use {@link java.net.URLEncoder#encode(String, java.nio.charset.Charset)} (Java 10+) with
+ * {@link java.nio.charset.StandardCharsets#UTF_8}.
  */
+@Deprecated
 public class URIEncoder {
 
    private static final BitSet unreservedBitSet = new BitSet();

@@ -22,7 +22,18 @@ import java.sql.Statement;
 /**
  * SQL utilities.
  * @author Matt Hamer - Attribyte, LLC
+ * @deprecated Use try-with-resources instead. Since Java 7, {@link java.sql.Connection},
+ * {@link java.sql.Statement}, and {@link java.sql.ResultSet} all implement {@link AutoCloseable}.
+ * For example:
+ * <pre>{@code
+ * try (Connection conn = dataSource.getConnection();
+ *      PreparedStatement stmt = conn.prepareStatement(sql);
+ *      ResultSet rs = stmt.executeQuery()) {
+ *    // use rs
+ * }
+ * }</pre>
  */
+@Deprecated
 public class SQLUtil {
 
    /**

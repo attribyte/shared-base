@@ -17,7 +17,11 @@ package org.attribyte.datetime;
 
 /**
  * An enumeration of all available formats.
+ * @deprecated This enum is part of the Joda-Time based datetime package.
+ * Use {@link java.time.format.DateTimeFormatter} and {@link java.time.format.FormatStyle}
+ * from the {@code java.time} API instead.
  */
+@Deprecated
 public enum Format {
 
    SHORT_TIME("st"),

@@ -22,7 +22,10 @@ import java.nio.file.Files;
 /**
  * Utility methods for files.
  * @author Matt Hamer - Attribyte, LLC
+ * @deprecated This class contains only trivial wrappers around {@code java.nio.file} methods.
+ * Use {@link java.nio.file.Files} directly.
  */
+@Deprecated
 public class FileUtil {
 
    /**
@@ -30,7 +33,10 @@ public class FileUtil {
     * @param file The file.
     * @return Is the file a symlink?
     * @throws java.io.IOException on filesystem error
+    * @deprecated Use {@link java.nio.file.Files#isSymbolicLink(java.nio.file.Path)} directly,
+    * e.g. {@code Files.isSymbolicLink(file.toPath())}.
     */
+   @Deprecated
    public static final boolean isSymlink(final File file) throws IOException {
       return Files.isSymbolicLink(file.toPath());
    }

@@ -26,6 +26,15 @@ import org.joda.time.DateTimeZone;
 import java.util.Locale;
 import java.util.TimeZone;
 
+/**
+ * Caching layer for {@link DateFormatSet} instances by time zone and locale.
+ * @deprecated This class is built on Joda-Time, which is in maintenance mode.
+ * Use {@link java.time.format.DateTimeFormatter} from the {@code java.time} API instead.
+ * {@code java.time} formatters are immutable, thread-safe, and can be shared directly
+ * without a caching layer. Use {@link java.time.format.DateTimeFormatter#withZone(java.time.ZoneId)}
+ * and {@link java.time.format.DateTimeFormatter#withLocale(java.util.Locale)} to derive variants.
+ */
+@Deprecated
 public class DFSCache {
 
    /**
